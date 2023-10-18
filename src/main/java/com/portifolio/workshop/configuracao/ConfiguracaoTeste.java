@@ -8,9 +8,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.portifolio.workshop.entidades.Categoria;
 import com.portifolio.workshop.entidades.Pedido;
 import com.portifolio.workshop.entidades.Usuario;
 import com.portifolio.workshop.entidades.enums.PedidoStatus;
+import com.portifolio.workshop.repositorios.CategoriaRepositorio;
 import com.portifolio.workshop.repositorios.PedidoRepositorio;
 import com.portifolio.workshop.repositorios.UsuarioRepositorio;
 
@@ -23,9 +25,18 @@ public class ConfiguracaoTeste implements CommandLineRunner{
 	
 	@Autowired
 	private PedidoRepositorio pedidoRepositorio;
+	
+	@Autowired
+	private CategoriaRepositorio categoriaRepositorio;
 
 	@Override
 	public void run(String... args) throws Exception {
+		
+		Categoria cat1 = new Categoria(null, "Eletrônicos");
+		Categoria cat2 = new Categoria(null, "Livros");
+		Categoria cat3 = new Categoria(null, "Computadores");
+		
+		categoriaRepositorio.saveAll(Arrays.asList(cat1, cat2, cat3));
 		
 		Usuario u1 = new Usuario(null, "Maria Brown", "maria@gmail.com", "988888888", "123456");
 		Usuario u2 = new Usuario(null, "Alex Green", "alex@gmail.com", "977777777", "123456");
