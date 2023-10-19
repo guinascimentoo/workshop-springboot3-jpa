@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.portifolio.workshop.entidades.Categoria;
+import com.portifolio.workshop.entidades.Pagamento;
 import com.portifolio.workshop.entidades.Pedido;
 import com.portifolio.workshop.entidades.PedidoItem;
 import com.portifolio.workshop.entidades.Produto;
@@ -79,5 +80,10 @@ public class ConfiguracaoTeste implements CommandLineRunner{
 		PedidoItem pi4 = new PedidoItem(p3, pr5, 2, pr5.getPreco());
 		
 		pedidoItemRepositorio.saveAll(Arrays.asList(pi1, pi2, pi3, pi4));
+		
+		Pagamento pag1 = new Pagamento(null, Instant.parse("2019-06-20T21:53:07Z"), p1);
+		p1.setPagamento(pag1);
+		
+		pedidoRepositorio.save(p1);
 	}
 }
