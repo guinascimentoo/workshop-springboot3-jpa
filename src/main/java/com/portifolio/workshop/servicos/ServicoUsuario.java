@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.portifolio.workshop.entidades.Usuario;
 import com.portifolio.workshop.repositorios.UsuarioRepositorio;
+import com.portifolio.workshop.servicos.excecoes.DatabaseException;
 import com.portifolio.workshop.servicos.excecoes.RecursoNotFoundException;
 
 @Service
@@ -30,7 +33,13 @@ public class ServicoUsuario {
 	}
 	
 	public void delete(Long id) {
-		repositorio.deleteById(id);
+		try {
+			repositorio.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new RecursoNotFoundException(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DatabaseException(e.getMessage());
+		}
 	}
 	
 	public Usuario atualizacao(Long id, Usuario obj) {
