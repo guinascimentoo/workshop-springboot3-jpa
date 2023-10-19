@@ -13,6 +13,8 @@ import com.portifolio.workshop.repositorios.UsuarioRepositorio;
 import com.portifolio.workshop.servicos.excecoes.DatabaseException;
 import com.portifolio.workshop.servicos.excecoes.RecursoNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class ServicoUsuario {
 
@@ -43,9 +45,13 @@ public class ServicoUsuario {
 	}
 	
 	public Usuario atualizacao(Long id, Usuario obj) {
-		Usuario entidade = repositorio.getReferenceById(id);
-		atualizacaoDados(entidade, obj);
-		return repositorio.save(entidade);
+		try {
+			Usuario entidade = repositorio.getReferenceById(id);
+			atualizacaoDados(entidade, obj);
+			return repositorio.save(entidade);
+		} catch (EntityNotFoundException e) {
+			throw new RecursoNotFoundException(id);
+		}
 	}
 
 	private void atualizacaoDados(Usuario entidade, Usuario obj) {	
