@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.portifolio.workshop.entidades.Usuario;
 import com.portifolio.workshop.repositorios.UsuarioRepositorio;
+import com.portifolio.workshop.servicos.excecoes.RecursoNotFoundException;
 
 @Service
 public class ServicoUsuario {
@@ -21,7 +22,7 @@ public class ServicoUsuario {
 	
 	public Usuario procurarPorId(Long id) {
 		Optional<Usuario> obj = repositorio.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new RecursoNotFoundException(id));
 	}
 	
 	public Usuario inserir(Usuario obj) {
